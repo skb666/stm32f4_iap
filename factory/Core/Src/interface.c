@@ -21,6 +21,7 @@ typedef struct {
   __IO uint8_t status;
   __IO uint8_t target;
   __IO uint32_t addr;
+  __IO uint32_t filesize;
   __IO uint32_t wr_cnt;
 } IAP_UP;
 
@@ -234,6 +235,16 @@ void iap_update(frame_parse_t *frame) {
         if (param.app_boot != param.app_run) {
           iap_up.enabled = 0;
         } else {
+          if (frame->length != 4) {
+            break;
+          }
+          iap_up.filesize = *(uint32_t *)frame->data;
+          if (frame->byte_order) {
+            change_byte_order((uint8_t *)&iap_up.filesize, sizeof(iap_up.filesize));
+          }
+          if (iap_up.filesize % 4) {
+            break;
+          }
           if (param.app_boot == BOOT_FACTORY) {
             iap_up.target = BOOT_APP1;
             iap_up.addr = ADDR_APP_APP1;
@@ -261,6 +272,11 @@ void iap_update(frame_parse_t *frame) {
         iap_up.wr_cnt += frame->length;
         uart6_printf("trans ok\n");
       } else if (frame->id == FRAME_TYPE_END) {
+        if (iap_up.wr_cnt != iap_up.filesize) {
+          iap_up.status = IAP_START;
+          uart6_printf("upgrade failed\n");
+          break;
+        }
         param.app_boot = iap_up.target;
         param.app_run = APP_NONE;
         param.app_status[iap_up.target - 1] = STATUS_ERROR;

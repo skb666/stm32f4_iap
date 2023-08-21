@@ -1,7 +1,9 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints groups="Breakpoints" active_group="Breakpoints"/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="280" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="factory/Core/Src/interface.c" useHWbreakpoint="false"/>
+ </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBuffer>
   <FrameBufferWindow width="0" keepAspectRatio="0" zoomToFitWindow="0" addressSpace="" format="0" height="0" autoEvaluate="0" scaleFactor="1" refreshPeriod="0" name="stm32f4_demo_Debug" addressText="" accessByDisplayWidth="0"/>
@@ -50,8 +52,6 @@
  </Memory4>
  <Project>
   <ProjectSessionItem path="iap"/>
-  <ProjectSessionItem path="iap;app"/>
-  <ProjectSessionItem path="iap;app;Core"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="stm32f4_demo_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -97,8 +97,10 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Two Seconds">
-   <Watchpoint expression="param" name="param" radix="-1" linenumber="193" filename="app/Core/Src/interface.c"/>
+   <Watchpoint expression="param" name="param" radix="-1" linenumber="194" filename="app/Core/Src/interface.c"/>
    <Watchpoint expression="param_bak" name="param_bak" radix="-1" linenumber="41" filename="bootloader/Core/Src/interface.c"/>
+   <Watchpoint expression="filesize" name="filesize" radix="16" linenumber="260" filename="factory/Core/Src/interface.c"/>
+   <Watchpoint expression="iap_up" name="iap_up" radix="-1" linenumber="260" filename="factory/Core/Src/interface.c"/>
   </Watches>
  </Watch1>
  <Watch2>
