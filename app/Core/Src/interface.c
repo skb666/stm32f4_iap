@@ -276,7 +276,7 @@ void iap_update(frame_parse_t *frame) {
           NVIC_SystemReset();
         }
       } else {
-        iap_up.status = IAP_START;
+        ;
       }
     } break;
   }

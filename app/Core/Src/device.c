@@ -13,6 +13,8 @@
 #define FRAME_HEAD1 0x55
 #define FRAME_HEAD2 0xAA
 
+#define FUNC_LIST_MAX 10
+
 typedef enum {
   PARSE_STAT_HEAD1 = 0,
   PARSE_STAT_HEAD2,
@@ -36,6 +38,8 @@ static uint8_t uart6_dmatx_buf[UART6_DMATX_BUF_SIZE];
 static uint8_t uart6_dmarx_buf[UART6_DMARX_BUF_SIZE];
 
 static uart_device_t uart6_dev = {0};
+static void (*func_list[FUNC_LIST_MAX])(frame_parse_t *) = {0};
+static uint8_t func_num = 0;
 static frame_parse_t rx_frame = {
   .status = PARSE_STAT_HEAD1,
 };
@@ -204,7 +208,19 @@ void change_byte_order(uint8_t *addr, size_t size) {
   }
 }
 
-void uart6_frame_parse(void *func) {
+int8_t frame_parse_register(void (*func)(frame_parse_t *)) {
+  if (func == 0) {
+    return -1;
+  }
+  if (func_num < FUNC_LIST_MAX) {
+    func_list[func_num++] = func;
+    return 0;
+  } else {
+    return -1;
+  }
+}
+
+void uart6_frame_parse(void) {
   uint16_t size = 0;
   uint8_t rx;
 
@@ -267,8 +283,10 @@ void uart6_frame_parse(void *func) {
       if (rx_frame.recv_size >= rx_frame.length) {
         rx_frame.status = PARSE_STAT_HEAD1;
         rx_frame.recv_size = 0;
-        if (func) {
-          ((void (*)(frame_parse_t *))func)(&rx_frame);
+        for (uint8_t i = 0; i < func_num; ++i) {
+          if (func_list[i]) {
+            func_list[i](&rx_frame);
+          }
         }
       }
     } break;
