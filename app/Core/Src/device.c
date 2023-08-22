@@ -13,7 +13,7 @@
 #define FRAME_HEAD1 0x55
 #define FRAME_HEAD2 0xAA
 
-#define FUNC_LIST_MAX 10
+#define FUNC_LIST_MAX 250
 
 typedef enum {
   PARSE_STAT_HEAD1 = 0,
@@ -32,14 +32,14 @@ typedef struct {
 
 char _CCM_DATA print_buf[512];
 
+static void _CCM_DATA (*func_list[FUNC_LIST_MAX])(frame_parse_t *) = {0};
+
 static ring_def(uint8_t _CCM_DATA, uart6_tx_ring, UART6_TX_RING_SIZE, 1);
 static ring_def(uint8_t _CCM_DATA, uart6_rx_ring, UART6_RX_RING_SIZE, 1);
 static uint8_t uart6_dmatx_buf[UART6_DMATX_BUF_SIZE];
 static uint8_t uart6_dmarx_buf[UART6_DMARX_BUF_SIZE];
 
 static uart_device_t uart6_dev = {0};
-static void (*func_list[FUNC_LIST_MAX])(frame_parse_t *) = {0};
-static uint8_t func_num = 0;
 static frame_parse_t rx_frame = {
   .status = PARSE_STAT_HEAD1,
 };
@@ -208,12 +208,13 @@ void change_byte_order(uint8_t *addr, size_t size) {
   }
 }
 
-int8_t frame_parse_register(void (*func)(frame_parse_t *)) {
-  if (func == 0) {
+int8_t frame_parse_register(uint8_t index, void (*func)(frame_parse_t *)) {
+  if (func == 0 || index >= FUNC_LIST_MAX) {
     return -1;
   }
-  if (func_num < FUNC_LIST_MAX) {
-    func_list[func_num++] = func;
+
+  if (func_list[index] == 0) {
+    func_list[index] = func;
     return 0;
   } else {
     return -1;
@@ -250,7 +251,7 @@ void uart6_frame_parse(void) {
         } else if (rx_frame.id == 0xfe) {
           rx_frame.byte_order = 0;
           rx_frame.status = PARSE_STAT_HEAD1;
-        } else if (rx_frame.id < FRAME_TYPE_MAX) {
+        } else if (rx_frame.id < FUNC_LIST_MAX && func_list[rx_frame.id]) {
           rx_frame.status = PARSE_STAT_LENGTH;
         } else {
           rx_frame.status= PARSE_STAT_HEAD1;
@@ -283,11 +284,7 @@ void uart6_frame_parse(void) {
       if (rx_frame.recv_size >= rx_frame.length) {
         rx_frame.status = PARSE_STAT_HEAD1;
         rx_frame.recv_size = 0;
-        for (uint8_t i = 0; i < func_num; ++i) {
-          if (func_list[i]) {
-            func_list[i](&rx_frame);
-          }
-        }
+        func_list[rx_frame.id](&rx_frame);
       }
     } break;
     default: {
@@ -297,13 +294,8 @@ void uart6_frame_parse(void) {
 }
 
 void print_frame(frame_parse_t *frame) {
-  printf("id: %hhu\n", frame->id);
-  uart6_printf("length: %hu\n", frame->length);
-  printf("data:");
-  for (uint16_t i = 0; i < frame->length; ++i) {
-    printf(" 0x%02x", frame->data[i]);
-  }
-  printf("\n");
+  uart6_write(frame->data, frame->length);
+  LL_mDelay(2);
 }
 
 void print_uart6_tx_rx(void) {

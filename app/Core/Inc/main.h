@@ -49,7 +49,13 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+typedef enum {
+  FRAME_TYPE_DATA = 0,
+  FRAME_TYPE_BEGIN,
+  FRAME_TYPE_END,
+  FRAME_TYPE_DEBUG,
+  FRAME_TYPE_MAX,
+} FRAME_TYPE;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

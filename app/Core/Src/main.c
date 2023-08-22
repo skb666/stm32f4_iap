@@ -102,7 +102,10 @@ int main(void)
   boot_param_check_upgrade();
   LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
   LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
-  frame_parse_register(iap_update);
+  frame_parse_register(FRAME_TYPE_BEGIN, iap_update);
+  frame_parse_register(FRAME_TYPE_END, iap_update);
+  frame_parse_register(FRAME_TYPE_DATA, iap_update);
+  frame_parse_register(FRAME_TYPE_DEBUG, print_frame);
   /* USER CODE END 2 */
 
   /* Infinite loop */

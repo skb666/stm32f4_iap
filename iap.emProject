@@ -2,6 +2,7 @@
 <solution Name="iap" target="8" version="2">
   <configuration
     Name="Common"
+    arm_compiler_variant="SEGGER"
     arm_target_interface_type="SWD"
     gcc_c_language_standard="gnu11"
     gcc_cplusplus_language_standard="gnu++17"
@@ -25,7 +26,6 @@
       Name="Common"
       Target="STM32F407ZGTx"
       arm_architecture="v7EM"
-      arm_compiler_variant="SEGGER"
       arm_core_type="Cortex-M4"
       arm_endian="Little"
       arm_fp_abi="Hard"
@@ -114,10 +114,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
   <project Name="bootloader">
@@ -126,7 +126,6 @@
       Name="Common"
       Target="STM32F407ZGTx"
       arm_architecture="v7EM"
-      arm_compiler_variant="SEGGER"
       arm_core_type="Cortex-M4"
       arm_endian="Little"
       arm_fp_abi="Hard"
@@ -211,10 +210,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
   <project Name="factory">
@@ -223,7 +222,6 @@
       Name="Common"
       Target="STM32F407ZGTx"
       arm_architecture="v7EM"
-      arm_compiler_variant="SEGGER"
       arm_core_type="Cortex-M4"
       arm_endian="Little"
       arm_fp_abi="Hard"
@@ -308,10 +306,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
 </solution>

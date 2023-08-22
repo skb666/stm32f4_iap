@@ -108,7 +108,7 @@ int main(void)
   uart6_printf("boot addr: %#lx\n", boot_addr);
   LL_IWDG_ReloadCounter(IWDG);
 
-  uint32_t wait = 2000;
+  uint32_t wait = 500;
   uint32_t tickstart = HAL_GetTick();
   while (HAL_GetTick() - tickstart < wait) {
     if (get_WK_UP()) {
