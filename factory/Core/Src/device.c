@@ -32,7 +32,7 @@ typedef struct {
 
 char _CCM_DATA print_buf[512];
 
-static void _CCM_DATA (*func_list[FUNC_LIST_MAX])(frame_parse_t *) = {0};
+static void _CCM_DATA (*func_list[FUNC_LIST_MAX])(frame_parse_t *);
 
 static ring_def(uint8_t _CCM_DATA, uart6_tx_ring, UART6_TX_RING_SIZE, 1);
 static ring_def(uint8_t _CCM_DATA, uart6_rx_ring, UART6_RX_RING_SIZE, 1);
