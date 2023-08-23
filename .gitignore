@@ -1,5 +1,7 @@
-**/__pycache__
 **/build
 **/Output
+
+**/__pycache__
 **/*.bin
 **/*.jflash
+**/*.lock
