@@ -2,12 +2,10 @@
 <session>
  <Bookmarks/>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
-  <BreakpointListItem trigger="" line="280" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="factory/Core/Src/interface.c" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="105" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="app/Core/Src/main.c" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="106" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="app/Core/Src/main.c" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="107" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="app/Core/Src/main.c" useHWbreakpoint="false"/>
   <BreakpointListItem trigger="" line="108" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="app/Core/Src/main.c" useHWbreakpoint="false"/>
-  <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBuffer>
@@ -62,6 +60,7 @@
  </Memory4>
  <Project>
   <ProjectSessionItem path="iap"/>
+  <ProjectSessionItem path="iap;app"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="stm32f4_demo_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -111,8 +110,8 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Two Seconds">
-   <Watchpoint expression="iap_up" name="iap_up" radix="-1" linenumber="260" filename="factory/Core/Src/interface.c"/>
-   <Watchpoint expression="func_list" name="func_list" radix="-1" linenumber="217" filename="app/Core/Src/device.c"/>
+   <Watchpoint expression="iap_up" name="iap_up" radix="-1" linenumber="558" filename="factory/Core/Src/interface.c"/>
+   <Watchpoint expression="func_list" name="func_list" radix="-1" linenumber="525" filename="app/Core/Src/device.c"/>
   </Watches>
  </Watch1>
  <Watch2>

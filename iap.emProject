@@ -2,7 +2,7 @@
 <solution Name="iap" target="8" version="2">
   <configuration
     Name="Common"
-    arm_compiler_variant="SEGGER"
+    arm_compiler_variant="gcc"
     arm_target_interface_type="SWD"
     gcc_c_language_standard="gnu11"
     gcc_cplusplus_language_standard="gnu++17"
@@ -114,10 +114,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
   <project Name="bootloader">
@@ -140,7 +140,7 @@
       arm_target_device_name="STM32F407ZG"
       arm_target_interface_type="SWD"
       c_preprocessor_definitions="ARM_MATH_CM4;STM32F407xx;__STM32F407_SUBFAMILY;__STM32F4XX_FAMILY;USE_FULL_LL_DRIVER;USE_HAL_DRIVER"
-      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;$(ProjectDir)/STM32F4xx/Device/Include;$(ProjectDir)/../Core/Inc;$(ProjectDir)/../Drivers/STM32F4xx_HAL_Driver/Inc;$(ProjectDir)/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;$(ProjectDir)/../Mylibs/RING_FIFO/inc"
+      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;$(ProjectDir)/STM32F4xx/Device/Include;$(ProjectDir)/../Core/Inc;$(ProjectDir)/../Drivers/STM32F4xx_HAL_Driver/Inc;$(ProjectDir)/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
       debug_register_definition_file="$(ProjectDir)/STM32F407_Registers.xml"
       debug_stack_pointer_start="__stack_end__"
       debug_start_from_entry_point_symbol="Yes"
@@ -165,8 +165,6 @@
     </folder>
     <folder Name="Core">
       <file file_name="../Core/Src/crc.c" />
-      <file file_name="../Core/Src/device.c" />
-      <file file_name="../Core/Src/dma.c" />
       <file file_name="../Core/Src/gpio.c" />
       <file file_name="../Core/Src/interface.c" />
       <file file_name="../Core/Src/iwdg.c" />
@@ -200,9 +198,6 @@
       <file file_name="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.c" />
       <file file_name="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.c" />
     </folder>
-    <folder Name="Mylibs">
-      <file file_name="../Mylibs/RING_FIFO/src/ring_fifo.c" />
-    </folder>
     <folder Name="Script Files">
       <file file_name="STM32F4xx/Scripts/STM32F4xx_Target.js">
         <configuration Name="Common" file_type="Reset Script" />
@@ -210,10 +205,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
   <project Name="factory">
@@ -306,10 +301,10 @@
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
-      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
       <file file_name="STM32F4xx/Source/stm32f407xx_Vectors.s">
         <configuration Name="Common" file_type="Assembly" />
       </file>
+      <file file_name="STM32F4xx/Source/STM32F4xx_Startup.s" />
     </folder>
   </project>
 </solution>

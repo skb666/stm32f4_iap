@@ -97,13 +97,17 @@ int main(void)
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
   boot_param_check_upgrade();
+  frame_parse_register(FRAME_TYPE_BEGIN, iap_update);
+  frame_parse_register(FRAME_TYPE_END, iap_update);
+  frame_parse_register(FRAME_TYPE_DATA, iap_update);
+  frame_parse_register(FRAME_TYPE_DEBUG, print_frame);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    uart6_frame_parse(iap_update);
+    uart6_frame_parse();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

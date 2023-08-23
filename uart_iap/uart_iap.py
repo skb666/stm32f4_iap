@@ -1,14 +1,43 @@
 #!/usr/bin/python
+import sys
+
+
+def usage():
+    print("Usage:")
+    print(f" python {sys.argv[0]} [-d|--device <DEV>]  [-b|--baudrate <BAUD>] [-f|--file <FILE>]")
+
 
 if __name__ == "__main__":
     import os
+    import getopt
     import struct
     import time
     from mySerial import *
+    
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "d:b:f:", ["device=", "baudrate=", "file="])
+    except getopt.GetoptError as err:
+        print(err)
+        usage()
+        exit(2)
 
     portname = "/dev/ttyUSB0"
     baudrate = 921600
     filename = "../app/emStudio/Output/Release/Exe/app.bin"
+    
+    for op, val in opts:
+        if op in ("-d", "--device"):
+            portname = val
+            print("get -d: %s" % portname)
+        elif op in ("-b", "--baudrate"):
+            baudrate = int(val)
+            print("get -b: %d" % baudrate)
+        elif op in ("-f", "--file"):
+            filename = val
+            print("get -f: %s" % filename)
+        else:
+            assert False, "UNHANDLED OPTION"
+    
     filesize = os.path.getsize(filename)
     filesize = filesize + (4 - filesize % 4)
     readsize = 1024

@@ -1,7 +1,6 @@
 #include "interface.h"
 
 #include "crc.h"
-#include "device.h"
 #include "main.h"
 
 #define APP_DATALEN (2 * 128 * 1024)
@@ -166,8 +165,4 @@ inline __attribute__((always_inline)) void start_boot_app(uint32_t boot_addr) {
   JumpToApplication = (pFunction)JumpAddress;
   __set_MSP(*(__IO uint32_t *)(JumpAddress - 4));
   JumpToApplication();
-}
-
-void boot_test(void) {
-  ;
 }

@@ -29,7 +29,6 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
-#include "stm32f4xx_ll_dma.h"
 #include "stm32f4xx_ll_iwdg.h"
 #include "stm32f4xx_ll_usart.h"
 #include "stm32f4xx_ll_rcc.h"
@@ -40,15 +39,18 @@ extern "C" {
 #include "stm32f4xx_ll_cortex.h"
 #include "stm32f4xx_ll_utils.h"
 #include "stm32f4xx_ll_pwr.h"
+#include "stm32f4xx_ll_dma.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern char print_buf[];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -73,7 +75,20 @@ void Error_Handler(void);
 #define WK_UP_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-
+#define _CCM_DATA __attribute__((section(".ccmram.data")))
+#if 1
+#define uart6_printf(fmt, args...)                     \
+  do {                                                 \
+    sprintf((char *)print_buf, fmt, ##args);           \
+    for (uint16_t i = 0; i < strlen(print_buf); ++i) { \
+      while(LL_USART_IsActiveFlag_TC(USART6)!=1);      \
+      LL_USART_TransmitData8(USART6, print_buf[i]);    \
+    }                                                  \
+    LL_mDelay(1);                                      \
+  } while (0)
+#else
+#define uart6_printf(fmt, args...)
+#endif
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

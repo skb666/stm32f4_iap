@@ -19,14 +19,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "crc.h"
-#include "dma.h"
 #include "iwdg.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "device.h"
 #include "interface.h"
 /* USER CODE END Includes */
 
@@ -48,6 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+char _CCM_DATA print_buf[512];
 BOOT_PARAM boot_param;
 uint32_t boot_addr;
 /* USER CODE END PV */
@@ -97,7 +96,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_CRC_Init();
   MX_USART6_UART_Init();
   MX_IWDG_Init();
@@ -119,11 +117,6 @@ int main(void)
   }
 
   uart6_printf("close peripherals and interrupts\n");
-  NVIC_DisableIRQ(DMA2_Stream1_IRQn);
-  NVIC_DisableIRQ(DMA2_Stream7_IRQn);
-  NVIC_DisableIRQ(USART6_IRQn);
-  LL_DMA_DeInit(DMA2, LL_DMA_STREAM_1);
-  LL_DMA_DeInit(DMA2, LL_DMA_STREAM_7);
   LL_USART_DeInit(USART6);
   LL_GPIO_DeInit(GPIOC);
   LL_GPIO_DeInit(GPIOA);

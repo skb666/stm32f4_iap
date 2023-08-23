@@ -1,7 +1,6 @@
 #include "interface.h"
 
 #include "crc.h"
-#include "device.h"
 #include "main.h"
 
 #define APP_DATALEN (2 * 128 * 1024)
@@ -296,9 +295,4 @@ void iap_update(frame_parse_t *frame) {
       }
     } break;
   }
-}
-
-
-void boot_test(void) {
-  ;
 }

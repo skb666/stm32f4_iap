@@ -268,7 +268,9 @@ void uart6_frame_parse(void) {
           change_byte_order((uint8_t *)&rx_frame.length, sizeof(rx_frame.length));
         }
         if (rx_frame.length > FRAME_DATA_LEN_MAX) {
+        #ifdef DEBUG
           printf("frame length error!!! (%hu)\n", rx_frame.length);
+        #endif
           rx_frame.status = PARSE_STAT_HEAD1;
         } else {
           rx_frame.status = PARSE_STAT_DATA;
@@ -288,7 +290,9 @@ void uart6_frame_parse(void) {
       }
     } break;
     default: {
+    #ifdef DEBUG
       printf("frame status error!!!\n");
+    #endif
     } break;
   }
 }

@@ -13,13 +13,6 @@
 extern "C" {
 #endif
 
-typedef enum {
-  FRAME_TYPE_DATA = 0,
-  FRAME_TYPE_BEGIN,
-  FRAME_TYPE_END,
-  FRAME_TYPE_MAX,
-} FRAME_TYPE;
-
 typedef struct {
   uint8_t status;
   uint8_t id;
@@ -40,7 +33,8 @@ void uart6_tx_poll(void);
 uint16_t uart6_read(uint8_t *buf, uint16_t size);
 uint16_t uart6_write(const uint8_t *buf, uint16_t size);
 void change_byte_order(uint8_t *addr, size_t size);
-void uart6_frame_parse(void *func);
+int8_t frame_parse_register(uint8_t index, void (*func)(frame_parse_t *));
+void uart6_frame_parse(void);
 void print_frame(frame_parse_t *frame);
 void print_uart6_tx_rx(void);
 

@@ -22,7 +22,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "device.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,8 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-uint8_t _CCM_DATA buf[512];
-uint16_t _CCM_DATA size;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -189,11 +188,7 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-  size = uart6_read(buf, sizeof(buf));
-  if (size) {
-    uart6_write(buf, size);
-  }
-  uart6_tx_poll();
+
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -203,59 +198,6 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
-
-/**
-  * @brief This function handles DMA2 stream1 global interrupt.
-  */
-void DMA2_Stream1_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
-
-  /* USER CODE END DMA2_Stream1_IRQn 0 */
-
-  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
-  if (LL_DMA_IsActiveFlag_HT1(DMA2)) {
-    LL_DMA_ClearFlag_HT1(DMA2);
-    uart6_dmarx_part_done_isr();
-  } else if (LL_DMA_IsActiveFlag_TC1(DMA2)) {
-    LL_DMA_ClearFlag_TC1(DMA2);
-    uart6_dmarx_done_isr();
-  }
-  /* USER CODE END DMA2_Stream1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA2 stream7 global interrupt.
-  */
-void DMA2_Stream7_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
-
-  /* USER CODE END DMA2_Stream7_IRQn 0 */
-
-  /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
-  if (LL_DMA_IsActiveFlag_TC7(DMA2)) {
-    LL_DMA_ClearFlag_TC7(DMA2);
-    uart6_dmatx_done_isr();
-  }
-  /* USER CODE END DMA2_Stream7_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USART6 global interrupt.
-  */
-void USART6_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART6_IRQn 0 */
-
-  /* USER CODE END USART6_IRQn 0 */
-  /* USER CODE BEGIN USART6_IRQn 1 */
-  if (LL_USART_IsActiveFlag_IDLE(USART6)) {
-    LL_USART_ClearFlag_IDLE(USART6);
-    uart6_dmarx_part_done_isr();
-  }
-  /* USER CODE END USART6_IRQn 1 */
-}
 
 /* USER CODE BEGIN 1 */
 

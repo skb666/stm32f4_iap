@@ -7,9 +7,9 @@
 #include "onchip_flash.h"
 
 #define ADDR_BOOTLOADER ADDR_FLASH_SECTOR_0
+#define ADDR_APP_FACTORY ADDR_FLASH_SECTOR_1
 #define ADDR_BOOT_PARAM ADDR_FLASH_SECTOR_2
 #define ADDR_BOOT_PARAM_BAK ADDR_FLASH_SECTOR_3
-#define ADDR_APP_FACTORY ADDR_FLASH_SECTOR_5
 #define ADDR_APP_RUN ADDR_FLASH_SECTOR_6
 #define ADDR_APP_APP1 ADDR_FLASH_SECTOR_8
 #define ADDR_APP_APP2 ADDR_FLASH_SECTOR_10
@@ -48,7 +48,6 @@ uint32_t select_boot_addr(BOOT_PARAM *param);
 void start_boot_app(uint32_t boot_addr);
 void boot_param_check_upgrade(void);
 void iap_update(frame_parse_t *frame);
-void boot_test(void);
 
 #ifdef __cplusplus
 }
