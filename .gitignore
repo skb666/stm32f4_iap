@@ -5,3 +5,9 @@
 **/*.bin
 **/*.jflash
 **/*.lock
+
+*.html
+.vscode
+node_modules
+package.json
+package-lock.json

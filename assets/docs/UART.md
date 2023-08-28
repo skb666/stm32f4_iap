@@ -143,15 +143,16 @@ LoopFillZeroCcm:
 
 ```mermaid
 graph LR
-uart_cond(串口空闲 IDLE 中断)
-dma_cond1(DMA RX Buffer 溢满中断)
-dma_cond2(DMA RX Buffer 半满中断)
-op1[获取有效数据大小和偏移]
-op2[写入串口 RX FIFO]
-uart_cond --> op1
-dma_cond1 --> op1
-dma_cond2 --> op1
-op1 --> op2
+  uart_cond(串口空闲 IDLE 中断)
+  dma_cond1(DMA RX Buffer 溢满中断)
+  dma_cond2(DMA RX Buffer 半满中断)
+  op1[获取有效数据大小和偏移]
+  op2[写入串口 RX FIFO]
+
+  uart_cond --> op1
+  dma_cond1 --> op1
+  dma_cond2 --> op1
+  op1 --> op2
 ```
 
 #### 接收关键配置
@@ -285,19 +286,20 @@ void uart6_dmarx_part_done_isr(void) {
 
 ```mermaid
 graph TB
-data(应用串口数据发送接口)
-fifo[写入串口 TX FIFO]
-cond1{FIFO 存在数据}
-op1[检查 DMA 状态]
-cond2{空闲?}
-op2[拷贝数据到 DMA TX Buffer]
-data --> fifo
-fifo --> cond1
-cond1 --no--> cond1
-cond1 --yes--> op1
-op1 --> cond2
-cond2 --no--> cond1
-cond2 --yes--> op2
+  data(应用串口数据发送接口)
+  fifo[写入串口 TX FIFO]
+  cond1{FIFO 存在数据}
+  op1[检查 DMA 状态]
+  cond2{空闲?}
+  op2[拷贝数据到 DMA TX Buffer]
+
+  data --> fifo
+  fifo --> cond1
+  cond1 --no--> cond1
+  cond1 --yes--> op1
+  op1 --> cond2
+  cond2 --no--> cond1
+  cond2 --yes--> op2
 ```
 
 #### 发送关键配置
