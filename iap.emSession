@@ -104,7 +104,7 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Two Seconds">
-   <Watchpoint expression="iap_up" name="iap_up" radix="-1" linenumber="558" filename="factory/Core/Src/interface.c"/>
+   <Watchpoint expression="iap_up" name="iap_up" radix="-1" linenumber="532" filename="factory/Core/Src/interface.c"/>
    <Watchpoint expression="func_list" name="func_list" radix="-1" linenumber="524" filename="app/Core/Src/device.c"/>
   </Watches>
  </Watch1>
@@ -118,5 +118,5 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files/>
- <EMStudioWindow activeProject="app" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="D:/work/iap/app/Drivers/STM32F4xx_HAL_Driver/Src" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="app" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="D:/work/iap/app/Drivers/STM32F4xx_HAL_Driver/Src" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

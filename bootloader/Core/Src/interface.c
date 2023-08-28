@@ -6,7 +6,8 @@
 #define APP_DATALEN (2 * 128 * 1024)
 #define BIN_BUF_DATALEN (8 * 1024)
 
-typedef int (*pFunction)(void);
+typedef void (*pFunction)(void);
+__IO uint32_t MspAddress;
 __IO uint32_t JumpAddress;
 pFunction JumpToApplication;
 
@@ -18,7 +19,7 @@ const BOOT_PARAM boot_param_default = {
         [0] = STATUS_ERROR,
         [1] = STATUS_ERROR,
     },
-    .crc_val = 0x78afacac,
+    .crc_val = 0xc704dd7b,
 };
 
 static uint32_t _CCM_DATA bin_buf[BIN_BUF_DATALEN];
@@ -82,6 +83,8 @@ static void load_app(BOOT_PARAM *param) {
     load_addr = ADDR_APP_APP1;
   } else if (param->app_boot == BOOT_APP2) {
     load_addr = ADDR_APP_APP2;
+  } else {
+    return;
   }
 
   while (read_count < APP_DATALEN) {
@@ -91,78 +94,55 @@ static void load_app(BOOT_PARAM *param) {
   }
 
   param->app_run = param->app_boot;
+  param->app_status[param->app_boot - 1] = STATUS_UPDATED;
 }
 
 uint32_t select_boot_addr(BOOT_PARAM *param) {
   uint32_t boot_addr = ADDR_APP_FACTORY;
+  uint8_t stat_idx;
 
   if (param->app_boot == BOOT_FACTORY) {
     boot_addr = ADDR_APP_FACTORY;
-  } else if (param->app_boot == BOOT_APP1) {
+  } else {
+    boot_addr = ADDR_APP_RUN;
     if (param->app_boot != param->app_run) {
-      param->app_run = APP_APP1;
-      param->app_status[0] = STATUS_UPDATED;
-      boot_addr = ADDR_APP_RUN;
       load_app(param);
       boot_param_update(ADDR_BOOT_PARAM, param);
       boot_param_update(ADDR_BOOT_PARAM_BAK, param);
     } else {
-      if (param->app_status[0] == STATUS_NORMAL) {
-        boot_addr = ADDR_APP_RUN;
-      } else {
-        if (param->app_status[0] == STATUS_UPDATED) {
-          param->app_status[0] = STATUS_ERROR;
-        }
-        if (param->app_status[1] == STATUS_NORMAL) {
-          param->app_boot = BOOT_APP2;
-          param->app_run = APP_APP2;
-          boot_addr = ADDR_APP_RUN;
-          load_app(param);
-        } else {
-          param->app_boot = BOOT_FACTORY;
-          param->app_run = APP_NONE;
-          boot_addr = ADDR_APP_FACTORY;
-        }
-        boot_param_update(ADDR_BOOT_PARAM, param);
-        boot_param_update(ADDR_BOOT_PARAM_BAK, param);
+      stat_idx = param->app_boot - 1;
+      if (param->app_status[stat_idx] == STATUS_NORMAL) {
+        return boot_addr;
+      } else if (param->app_status[stat_idx] == STATUS_UPDATED) {
+        param->app_status[stat_idx] = STATUS_ERROR;
       }
-    }
-  } else if (param->app_boot == BOOT_APP2) {
-    if (param->app_boot != param->app_run) {
-      param->app_run = APP_APP2;
-      param->app_status[1] = STATUS_UPDATED;
-      boot_addr = ADDR_APP_RUN;
-      load_app(param);
+
+      stat_idx = (stat_idx == 0) ? 1 : 0;
+      if (param->app_status[stat_idx] == STATUS_NORMAL) {
+        param->app_boot = stat_idx + 1;
+        load_app(param);
+      } else {
+        param->app_boot = BOOT_FACTORY;
+        param->app_run = APP_NONE;
+        boot_addr = ADDR_APP_FACTORY;
+      }
       boot_param_update(ADDR_BOOT_PARAM, param);
       boot_param_update(ADDR_BOOT_PARAM_BAK, param);
-    } else {
-      if (param->app_status[1] == STATUS_NORMAL) {
-        boot_addr = ADDR_APP_RUN;
-      } else {
-        if (param->app_status[1] == STATUS_UPDATED) {
-          param->app_status[1] = STATUS_ERROR;
-        }
-        if (param->app_status[0] == STATUS_NORMAL) {
-          param->app_boot = BOOT_APP1;
-          param->app_run = APP_APP1;
-          boot_addr = ADDR_APP_RUN;
-          load_app(param);
-        } else {
-          param->app_boot = BOOT_FACTORY;
-          param->app_run = APP_NONE;
-          boot_addr = ADDR_APP_FACTORY;
-        }
-        boot_param_update(ADDR_BOOT_PARAM, param);
-        boot_param_update(ADDR_BOOT_PARAM_BAK, param);
-      }
     }
   }
+
   return boot_addr;
 }
 
 inline __attribute__((always_inline)) void start_boot_app(uint32_t boot_addr) {
+  MspAddress = *(__IO uint32_t *)(boot_addr);
   JumpAddress = *(__IO uint32_t *)(boot_addr + 4);
   JumpToApplication = (pFunction)JumpAddress;
-  __set_MSP(*(__IO uint32_t *)(JumpAddress - 4));
+  if ((MspAddress & 0xFFF00000) != 0x10000000 && (MspAddress & 0xFFF00000) != 0x20000000) {
+    NVIC_SystemReset();
+  }
+  __set_CONTROL(0);
+  __set_MSP(MspAddress);
   JumpToApplication();
 }
+

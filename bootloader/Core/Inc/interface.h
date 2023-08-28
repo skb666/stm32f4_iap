@@ -18,28 +18,28 @@ extern "C" {
 #endif
 
 typedef enum {
-  STATUS_NORMAL,   // APP能正常稳定运行
-  STATUS_UPDATED,  // APP刚更新完成，等待测试启动
-  STATUS_ERROR,    // APP错误，不能正常工作
-} APP_STATUS;
-
-typedef enum {
-  BOOT_FACTORY,
+  BOOT_FACTORY = 0,
   BOOT_APP1,
   BOOT_APP2,
 } APP_BOOT;
 
 typedef enum {
-  APP_NONE,
+  APP_NONE = 0,
   APP_APP1,
   APP_APP2,
 } APP_RUN;
 
+typedef enum {
+  STATUS_ERROR = 0,  // APP错误，不能正常工作
+  STATUS_UPDATED,    // APP刚更新完成，等待测试启动
+  STATUS_NORMAL,     // APP能正常稳定运行
+} APP_STATUS;
+
 typedef struct {
-  uint8_t app_boot;
-  uint8_t app_run;
-  uint8_t app_status[2];
-  uint32_t crc_val;
+  uint8_t app_boot;       // 指示待引导的分区
+  uint8_t app_run;        // 指示 app_run 的分区内容来源
+  uint8_t app_status[2];  // app1、app2 的分区状态
+  uint32_t crc_val;       // 引导参数的 crc 校验值
 } BOOT_PARAM;
 
 void boot_param_read_check(BOOT_PARAM *pdata);
